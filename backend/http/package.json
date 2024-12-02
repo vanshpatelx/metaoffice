@@ -19,6 +19,13 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "express": "^4.21.1"
+    "@types/ioredis": "^4.28.10",
+    "@types/kafkajs": "^1.8.2",
+    "@types/pg": "^8.11.10",
+    "cassandra-driver": "^4.7.2",
+    "express": "^4.21.1",
+    "ioredis": "^5.4.1",
+    "kafkajs": "^2.2.4",
+    "pg": "^8.13.1"
   }
 }
