@@ -19,6 +19,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@google-cloud/storage": "^7.14.0",
     "@types/ioredis": "^4.28.10",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/kafkajs": "^1.8.2",
