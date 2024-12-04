@@ -3,6 +3,7 @@ import adminRoutes from './routes/admin.routes';
 import arenaRoutes from './routes/arena.routes';
 import authRoutes from './routes/auth.routes';
 import spaceRoutes from './routes/space.routes';
+import { redisClient } from './config/cache/RedisClient';
 
 const app: Express = express();
 const PORT = process.env.PORT || 3003;
@@ -22,6 +23,14 @@ app.get('/check', (req: Request, res: Response) => {
     res.json('Server is running');
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+Promise.all([
+    redisClient.ping()
+])
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server is running on http://localhost:${PORT}`);
+        });
+    })
+    .catch((err) => {
+        console.error("Error initializing services:", err);
+    });
