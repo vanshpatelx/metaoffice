@@ -45,6 +45,7 @@ class RabbitMQConsumer {
         RabbitMQConsumer.channel?.consume(config.rabbitmq.signupQueue, async (msg) => {
             if (msg) {
                 const messageContent = msg.content.toString();
+                console.log(messageContent);
                 await queryManager.userSignupMessage(messageContent);
                 RabbitMQConsumer.channel?.ack(msg); // Ack
             }

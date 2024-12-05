@@ -38,7 +38,7 @@ const signup: RequestHandler = async (req: Request, res: Response): Promise<any>
         const newId = generateUniqueId();
         
         // send to broker
-        RabbitMQClient.sendSignUpDataToQueue(JSON.stringify({userId:BigInt(newId).toString(), username, password, type}));
+        RabbitMQClient.sendSignUpDataToQueue(JSON.stringify({id:BigInt(newId).toString(), username, password, type}));
         const payload = {
             userId: BigInt(newId).toString(),
             username: username,

@@ -22,8 +22,9 @@ class PGClient {
             min: minconn,
             max: maxconn,
             idleTimeoutMillis: 30000,
-            connectionTimeoutMillis: 1000,
+            connectionTimeoutMillis: 2000,
         });
+        console.log('PG started');
     }
 
     public static getInstance(
@@ -41,17 +42,18 @@ class PGClient {
         return PGClient.instance;
     }
 
-    public async executeQuery(query: string, params?: any[]): Promise<QueryResult> {
+    public async executeQuery(query: string, params?: any[]): Promise<QueryResult | boolean> {
         const client = await this.pool.connect();
         try {
-            return await client.query(query, params);
+            await client.query(query, params);
+            return true;
         } catch (error) {
-            console.error('Error executing query:', error);
-            throw error;
+            return false;
         } finally {
-            client.release();
+            client.release(); 
         }
     }
+    
 
     public async closePool(): Promise<void> {
         try {

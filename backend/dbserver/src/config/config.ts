@@ -4,11 +4,16 @@ export const config = {
         signupQueue: 'user_signup_queue',
         signinQueue: 'user_signin_queue'
     },
-    DB : {
-        user : process.env.user || 'user',
-        host : process.env.host || 'host',
+    DB1 : {
+        user : process.env.user || 'postgres',
+        host : process.env.host || 'localhost',
         database : process.env.database || 'database',
-        password : process.env.password || 'password',
+        password : process.env.password || 'mysecretpassword',
         port: process.env.DB_PORT || 5432,
+    },
+    DB2 : {
+        host : process.env.host || '127.0.0.1',
+        localDataCenter : process.env.localDataCenter || 'datacenter1',
     }
 };
+

@@ -11,6 +11,7 @@ class CassandraClient {
             keyspace,
             ...options,
         });
+        console.log('Cassandra started');
     }
 
     public static getInstance(contactPoints: string[], localDataCenter: string, keyspace?: string, options?: Partial<ClientOptions>): CassandraClient {
