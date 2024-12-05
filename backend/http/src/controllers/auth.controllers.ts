@@ -5,6 +5,8 @@ import { redisClient } from '../config/cache/RedisClient';
 import { generateUniqueId } from '../utils/ID';
 import jwt from 'jsonwebtoken';
 import { config } from '../config/config';
+import { KafkaSingleton } from '../config/Brokers/KafkaPub';
+import { RabbitMQClient } from '../config/Brokers/RabbitMQPub';
 // import { NUMBER } from '@repo/common/index';
 // console.log(NUMBER);
 
@@ -34,6 +36,9 @@ const signup: RequestHandler = async (req: Request, res: Response): Promise<any>
         }
 
         const newId = generateUniqueId();
+        
+        // send to broker
+        RabbitMQClient.sendSignUpDataToQueue(JSON.stringify({userId:BigInt(newId).toString(), username, password, type}));
         const payload = {
             userId: BigInt(newId).toString(),
             username: username,

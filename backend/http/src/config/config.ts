@@ -6,9 +6,10 @@ export const config = {
         db: Number(process.env.REDIS_DB) || 0,
     },
     JWT_SECRET : '1234455',
-    kafka: {
-        url1: process.env.KAFKA_BROKER1 || 'localhost:9092',
-        url2: process.env.KAFKA_BROKER2 || 'localhost:9093',
+    rabbitmq: {
+        url: process.env.RABBITMQ_URL || 'amqp://localhost', 
+        signupQueue: 'user_signup_queue',
+        signinQueue: 'user_signin_queue'
     },
     DB : {
         user : process.env.user || 'user',

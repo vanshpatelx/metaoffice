@@ -4,6 +4,8 @@ import arenaRoutes from './routes/arena.routes';
 import authRoutes from './routes/auth.routes';
 import spaceRoutes from './routes/space.routes';
 import { redisClient } from './config/cache/RedisClient';
+import { KafkaSingleton } from './config/Brokers/KafkaPub';
+import { RabbitMQClient } from './config/Brokers/RabbitMQPub';
 
 const app: Express = express();
 const PORT = process.env.PORT || 3003;
@@ -24,7 +26,9 @@ app.get('/check', (req: Request, res: Response) => {
 });
 
 Promise.all([
-    redisClient.ping()
+    redisClient.ping(),
+    // KafkaSingleton.connectProducer(),
+    RabbitMQClient.getConnection()
 ])
     .then(() => {
         app.listen(PORT, () => {
