@@ -46,7 +46,7 @@ class RabbitMQClient {
         } catch (err) {
             console.error('Failed to send signup message to RabbitMQ:', err);
         }
-    }
+    } 
     public static async sendSignInDataToQueue(message: string): Promise<void> {
         try {
             const channel = await RabbitMQClient.getChannel();
