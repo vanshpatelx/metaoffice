@@ -27,7 +27,7 @@ class RabbitMQClient {
                 RabbitMQClient.channel = await connection.createChannel();
                 
                 await RabbitMQClient.channel.assertQueue(config.rabbitmq.signupQueue, { durable: true });
-                await RabbitMQClient.channel.assertQueue(config.rabbitmq.signinQueue, { durable: true });
+                await RabbitMQClient.channel.assertQueue(config.rabbitmq.addElementQueue, { durable: true });
 
                 console.log(`RabbitMQ channel created`);
             } catch (err) {
@@ -47,13 +47,40 @@ class RabbitMQClient {
             console.error('Failed to send signup message to RabbitMQ:', err);
         }
     } 
-    public static async sendSignInDataToQueue(message: string): Promise<void> {
+    public static async addElement(message: string): Promise<void> {
         try {
             const channel = await RabbitMQClient.getChannel();
-            channel.sendToQueue(config.rabbitmq.signinQueue, Buffer.from(message), { persistent: true });
-            console.log('User signin data sent to queue:', message);
+            channel.sendToQueue(config.rabbitmq.addElementQueue, Buffer.from(message), { persistent: true });
+            console.log('Element add sent to queue:', message);
         } catch (err) {
-            console.error('Failed to send signin message to RabbitMQ:', err);
+            console.error('Failed to send Element add message to RabbitMQ:', err);
+        }
+    }
+    public static async updateElement(message: string): Promise<void> {
+        try {
+            const channel = await RabbitMQClient.getChannel();
+            channel.sendToQueue(config.rabbitmq.updateElementQueue, Buffer.from(message), { persistent: true });
+            console.log('Element update sent to queue:', message);
+        } catch (err) {
+            console.error('Failed to send Element update message to RabbitMQ:', err);
+        }
+    }
+    public static async addAvatar(message: string): Promise<void> {
+        try {
+            const channel = await RabbitMQClient.getChannel();
+            channel.sendToQueue(config.rabbitmq.addAvatarQueue, Buffer.from(message), { persistent: true });
+            console.log('Avatar add sent to queue:', message);
+        } catch (err) {
+            console.error('Failed to send Avatar add message to RabbitMQ:', err);
+        }
+    }
+    public static async addMap(message: string): Promise<void> {
+        try {
+            const channel = await RabbitMQClient.getChannel();
+            channel.sendToQueue(config.rabbitmq.addMapQueue, Buffer.from(message), { persistent: true });
+            console.log('Map add sent to queue:', message);
+        } catch (err) {
+            console.error('Failed to send Map add message to RabbitMQ:', err);
         }
     }
 

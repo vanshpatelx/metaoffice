@@ -5,7 +5,6 @@ import { redisClient } from '../config/cache/RedisClient';
 import { generateUniqueId } from '../utils/ID';
 import jwt from 'jsonwebtoken';
 import { config } from '../config/config';
-import { KafkaSingleton } from '../config/Brokers/KafkaPub';
 import { RabbitMQClient } from '../config/Brokers/RabbitMQPub';
 // import { NUMBER } from '@repo/common/index';
 // console.log(NUMBER);
@@ -37,7 +36,7 @@ const signup: RequestHandler = async (req: Request, res: Response): Promise<any>
 
         const newId = generateUniqueId();
         
-        // send to broker
+        // send tcono broker
         RabbitMQClient.sendSignUpDataToQueue(JSON.stringify({id:BigInt(newId).toString(), username, password, type}));
         const payload = {
             userId: BigInt(newId).toString(),
@@ -69,6 +68,10 @@ const signin: RequestHandler = async (req: Request, res: Response): Promise<any>
             }
             return errorHandler(res, 'Invalid credentials', 401);
         }
+        
+        // check in Read DB
+        // return if not exists
+        // Generate token
 
     }catch(error){
         return errorHandler(res, error.message || 'SignIn Failed');

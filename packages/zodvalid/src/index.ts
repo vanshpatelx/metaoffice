@@ -13,5 +13,32 @@ export const signUpParams = z.object({
 
 export const signInParams = z.object({
     username: z.string(),
-    password: z.string(),
+    password: z.string()
+});
+
+export const addElementParams = z.object({
+    name: z.string(),
+    height: z.number(),
+    width: z.number(),
+    staticImg : z.boolean()
+});
+
+export const updateElementParams = z.object({
+    name: z.string(),
+    height: z.number(),
+    width: z.number(),
+    staticImg : z.boolean(),
+    Id: z.bigint()
+});
+
+
+export const addAvatarParams = z.object({
+    name: z.string()
+});
+
+export const addMapParams = z.object({
+    name: z.string(),
+    height: z.number(),
+    width: z.number(),
+    elements: z.array(z.bigint())
 });

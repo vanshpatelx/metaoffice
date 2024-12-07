@@ -9,7 +9,10 @@ export const config = {
     rabbitmq: {
         url: process.env.RABBITMQ_URL || 'amqp://localhost', 
         signupQueue: 'user_signup_queue',
-        signinQueue: 'user_signin_queue'
+        addElementQueue: 'admin_add_element_queue',
+        updateElementQueue: 'admin_update_element_queue',
+        addAvatarQueue: 'admin_add_avatar_queue',
+        addMapQueue: 'admin_add_map_queue'
     },
     DB : {
         user : process.env.user || 'user',
