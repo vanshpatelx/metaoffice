@@ -30,7 +30,6 @@ class QueryManager {
 
     private initializeTables(): void {
         const tables = [
-            query.createDB,
             query.createTable.users,
             query.createTable.elements,
             query.createTable.avatars,

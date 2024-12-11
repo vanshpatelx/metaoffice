@@ -18,9 +18,9 @@ function generateUniqueId(): bigint {
   const counterValue = (++counter % 1000);  // range [0, 1000]
 
   const uniqueIdString = 
-    hostname.padStart(4, '0') + 
     timestamp.toString() +    // timestaps milliseconds
-    counterValue.toString().padStart(3, '0');
+    counterValue.toString().padStart(3, '0')
+    hostname.padStart(4, '0');
 
   const uniqueId = BigInt(uniqueIdString);
   return uniqueId;

@@ -58,5 +58,7 @@ export const query = {
         addMap: `INSERT INTO maps (id, dimensions, elements, url, name, created_at, modified_at) VALUES ($1, $2, $3, $4, $5, toTimestamp(now()), toTimestamp(now()));`,
     },
     createKeyspaceQuery : `CREATE KEYSPACE IF NOT EXISTS my_keyspace WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1}`,
-    createDB : `CREATE DATABASE database;`,
+    readQuery : {
+        readUser: `SELECT * FROM users WHERE username = $1`
+    }
 }

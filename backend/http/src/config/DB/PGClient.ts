@@ -1,10 +1,18 @@
-import { Pool } from 'pg';
+import { Pool, QueryResult } from 'pg';
 
 class PGClient {
     private static instance: PGClient;
     private pool: Pool;
 
-    private constructor(dbname: string, user: string, password: string, host: string, port: number, minconn: number, maxconn: number) {
+    private constructor(
+        dbname: string,
+        user: string,
+        password: string,
+        host: string,
+        port: number,
+        minconn: number,
+        maxconn: number
+    ) {
         this.pool = new Pool({
             user,
             host,
@@ -14,30 +22,39 @@ class PGClient {
             min: minconn,
             max: maxconn,
             idleTimeoutMillis: 30000,
-            connectionTimeoutMillis: 1000,
+            connectionTimeoutMillis: 2000,
         });
+        console.log('PG started');
     }
 
-    public static getInstance(dbname: string, user: string, password: string, host: string, port: number, minconn: number, maxconn: number): PGClient {
+    public static getInstance(
+        dbname: string,
+        user: string,
+        password: string,
+        host: string,
+        port: number,
+        minconn: number,
+        maxconn: number
+    ): PGClient {
         if (!PGClient.instance) {
             PGClient.instance = new PGClient(dbname, user, password, host, port, minconn, maxconn);
         }
         return PGClient.instance;
     }
 
-    public async executeQuery(query: string, params?: any[]): Promise<any> {
-        let client;
+    public async executeQuery(query: string, params?: any[]): Promise<QueryResult | boolean> {
+        const client = await this.pool.connect();
         try {
-            client = await this.pool.connect();
-            const res = await client.query(query, params);
-            return res.rows;
+            const result = await client.query(query, params);
+            if(result.rowCount === 0) return false;
+            return result;
         } catch (error) {
-            console.error('Error executing query:', error);
-            throw error;
+            return false;
         } finally {
-            if (client) client.release();
+            client.release(); 
         }
     }
+    
 
     public async closePool(): Promise<void> {
         try {

@@ -17,3 +17,4 @@ http://localhost:15672
 docker exec -it redis-stack-server redis-cli
 
 docker exec -it my-postgres psql -U postgres
+docker exec -it my-postgres psql -U postgres -d gatherTown

@@ -6,6 +6,8 @@ import { generateUniqueId } from '../utils/ID';
 import jwt from 'jsonwebtoken';
 import { config } from '../config/config';
 import { RabbitMQClient } from '../config/Brokers/RabbitMQPub';
+import { queryManager } from '../config/DB/queryManager';
+import { query } from '../config/DB/query';
 // import { NUMBER } from '@repo/common/index';
 // console.log(NUMBER);
 
@@ -34,10 +36,17 @@ const signup: RequestHandler = async (req: Request, res: Response): Promise<any>
             return errorHandler(res, 'User already exists.', 409);
         }
 
+        const resultDB = await queryManager.fetchData(query.readQuery.readUser, [username]);
+        if(resultDB != false){
+            return errorHandler(res, 'User already exists', 409);
+        }
+
         const newId = generateUniqueId();
         
-        // send tcono broker
+        // send to broker
         RabbitMQClient.sendSignUpDataToQueue(JSON.stringify({id:BigInt(newId).toString(), username, password, type}));
+
+        // Token
         const payload = {
             userId: BigInt(newId).toString(),
             username: username,
@@ -69,10 +78,25 @@ const signin: RequestHandler = async (req: Request, res: Response): Promise<any>
             return errorHandler(res, 'Invalid credentials', 401);
         }
         
-        // check in Read DB
-        // return if not exists
-        // Generate token
+        // check in DB
+        const result = await queryManager.fetchData(query.readQuery.readUser, [username]);
+        if(result === false){
+            return errorHandler(res, 'SignIn Failed Invalid User', 401);
+        }
+        const user = result?.rows[0];
 
+        if(password != user.password){
+            return errorHandler(res, 'Invalid credentials', 401);
+        }
+
+        // Generate token
+        const payload = {
+            userId: BigInt(user.id).toString(),
+            username: user.username,
+            type: user.type
+        }
+        const token = jwt.sign(payload, config.JWT_SECRET, { expiresIn: '7d' });
+        return res.status(201).json({ message: 'SignIn successful' , token});
     }catch(error){
         return errorHandler(res, error.message || 'SignIn Failed');
     }
