@@ -4,8 +4,8 @@ import arenaRoutes from './routes/arena.routes';
 import authRoutes from './routes/auth.routes';
 import spaceRoutes from './routes/space.routes';
 import { redisClient } from './config/cache/RedisClient';
-import { KafkaSingleton } from './config/Brokers/KafkaPub';
 import { RabbitMQClient } from './config/Brokers/RabbitMQPub';
+import { configDotenv } from 'dotenv';
 
 const app: Express = express();
 const PORT = process.env.PORT || 3003;
@@ -13,6 +13,7 @@ const PORT = process.env.PORT || 3003;
 // Middleware for parsing requests
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+configDotenv();
 
 // Route Handlers
 app.use('/api/v1/admin', adminRoutes);

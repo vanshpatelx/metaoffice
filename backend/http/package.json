@@ -27,6 +27,7 @@
     "@types/pg": "^8.11.10",
     "amqplib": "^0.10.5",
     "cassandra-driver": "^4.7.2",
+    "dotenv": "^16.4.7",
     "express": "^4.21.1",
     "ioredis": "^5.4.1",
     "jsonwebtoken": "^9.0.2",

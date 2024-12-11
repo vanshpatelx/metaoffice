@@ -24,5 +24,10 @@ export const config = {
     DB2 : {
         host : process.env.host || '127.0.0.1',
         localDataCenter : process.env.localDataCenter || 'datacenter1',
+    },
+    AWS_S3:{
+        accessKeyId: process.env.accessKeyId,
+        secretAccessKey: process.env.secretAccessKey,
+        region: process.env.region
     }
 };
