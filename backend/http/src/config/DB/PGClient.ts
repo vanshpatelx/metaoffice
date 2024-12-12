@@ -42,7 +42,7 @@ class PGClient {
         return PGClient.instance;
     }
 
-    public async executeQuery(query: string, params?: any[]): Promise<QueryResult | boolean> {
+    public async executeQuery(query: string, params?: any[]): Promise<false | QueryResult<any>> {
         const client = await this.pool.connect();
         try {
             const result = await client.query(query, params);

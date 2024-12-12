@@ -15,7 +15,7 @@ export const uploadImage = async (bucketName: string, fileName: string): Promise
     Bucket: bucketName,
     Key: fileName,
     Expires: 900,
-    ContentType: 'image/*',  // Supports any image type (jpeg, png, webp, etc.)
+    ContentType: 'image/*',  // any image type
   };
 
   return s3.getSignedUrlPromise('putObject', params);

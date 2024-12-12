@@ -52,7 +52,7 @@ const signup: RequestHandler = async (req: Request, res: Response): Promise<any>
             username: username,
             type: type
         }
-        const token = jwt.sign(payload, config.JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign(payload, config.JWT_SECRET.secret as string, { expiresIn: '7d' });
 
         return res.status(201).json({ message: 'Signup successful' , token});
     }catch (error) {
@@ -72,7 +72,7 @@ const signin: RequestHandler = async (req: Request, res: Response): Promise<any>
             const user = JSON.parse(cachedUser);
 
             if (user.password === password) {
-                const token = jwt.sign({ username, type: user.type }, config.JWT_SECRET, { expiresIn: '7d' });
+                const token = jwt.sign({ username, type: user.type }, config.JWT_SECRET.secret as string, { expiresIn: '7d' });
                 return res.status(200).json({ message: 'SignIn successful', token });
             }
             return errorHandler(res, 'Invalid credentials', 401);
@@ -83,7 +83,7 @@ const signin: RequestHandler = async (req: Request, res: Response): Promise<any>
         if(result === false){
             return errorHandler(res, 'SignIn Failed Invalid User', 401);
         }
-        const user = result?.rows[0];
+        const user = result.rows[0];
 
         if(password != user.password){
             return errorHandler(res, 'Invalid credentials', 401);
@@ -95,7 +95,7 @@ const signin: RequestHandler = async (req: Request, res: Response): Promise<any>
             username: user.username,
             type: user.type
         }
-        const token = jwt.sign(payload, config.JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign(payload, config.JWT_SECRET.secret as string, { expiresIn: '7d' });
         return res.status(201).json({ message: 'SignIn successful' , token});
     }catch(error){
         return errorHandler(res, error.message || 'SignIn Failed');

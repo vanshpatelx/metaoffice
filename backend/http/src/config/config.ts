@@ -1,29 +1,31 @@
 export const config = {
     redis : {
-        host : process.env.REDIS_HOST || 'localhost',
-        port: Number(process.env.REDIS_PORT) || 6379,
-        password: process.env.REDIS_PASSWORD || '',
-        db: Number(process.env.REDIS_DB) || 0,
+        host : process.env.REDIS_HOST,
+        port: Number(process.env.REDIS_PORT),
+        password: process.env.REDIS_PASSWORD,
+        db: Number(process.env.REDIS_DB),
     },
-    JWT_SECRET : '1234455',
+    JWT_SECRET :{
+        secret: process.env.JWT_SECRET
+    },
     rabbitmq: {
-        url: process.env.RABBITMQ_URL || 'amqp://localhost', 
-        signupQueue: 'user_signup_queue',
-        addElementQueue: 'admin_add_element_queue',
-        updateElementQueue: 'admin_update_element_queue',
-        addAvatarQueue: 'admin_add_avatar_queue',
-        addMapQueue: 'admin_add_map_queue'
+        url: process.env.RABBITMQ_URL, 
+        signupQueue: process.env.signupQueue,
+        addElementQueue: process.env.addElementQueue,
+        updateElementQueue: process.env.updateElementQueue,
+        addAvatarQueue: process.env.addAvatarQueue,
+        addMapQueue: process.env.addMapQueue
     },
     DB1 : {
-        user : process.env.user || 'postgres',
-        host : process.env.host || 'localhost',
-        database : process.env.database || 'gatherTown',
-        password : process.env.password || 'mysecretpassword',
-        port: process.env.DB_PORT || 5432,
+        user : process.env.user,
+        host : process.env.host,
+        database : process.env.database,
+        password : process.env.password,
+        port: process.env.DB_PORT
     },
     DB2 : {
-        host : process.env.host || '127.0.0.1',
-        localDataCenter : process.env.localDataCenter || 'datacenter1',
+        host : process.env.host,
+        localDataCenter : process.env.localDataCenter,
     },
     AWS_S3:{
         accessKeyId: process.env.accessKeyId,

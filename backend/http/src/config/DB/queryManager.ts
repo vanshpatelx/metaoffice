@@ -66,7 +66,7 @@ class QueryManager {
         return QueryManager.instance;
     }
 
-    public async fetchData(query: string, params: any[] = []): Promise<QueryResult | boolean> {
+    public async fetchData(query: string, params: any[] = []): Promise<false | QueryResult<any>> {
         try {
             return await this.dbclient.executeQuery(query, params);
         } catch (error) {
