@@ -14,7 +14,7 @@ const addElement: RequestHandler = async (req: Request, res: Response): Promise<
         const newId = generateUniqueId();
         
         // Image Link
-        const imgUrl = uploadImage('A', 'B', 'C');
+        const imgUrl = uploadImage('A', 'B');
         const dimensions = `${width}X${height}`;
         
         // Caching
@@ -40,7 +40,7 @@ const updateElement: RequestHandler = async (req: Request, res: Response): Promi
 
         let newElement;
         const dimensions = `${width}X${height}`;
-        const imgUrl = uploadImage('A', 'B', 'C');
+        const imgUrl = uploadImage('A', 'B');
 
         // check in cache
         const cacheKey = `Element:${Id}`;
@@ -78,7 +78,7 @@ const addAvatar: RequestHandler = async (req: Request, res: Response): Promise<a
         const newId = generateUniqueId();
         
         // Image Link
-        const imgUrl = uploadImage('A', 'B', 'C');
+        const imgUrl = uploadImage('A', 'B');
         
         // Caching
         const cacheKey = `Avatar:${newId}`;
@@ -118,7 +118,7 @@ const addMap: RequestHandler = async (req: Request, res: Response): Promise<any>
         const newId = generateUniqueId();
 
         // Image Link
-        const imgUrl = uploadImage('A', 'B', 'C');
+        const imgUrl = uploadImage('A', 'B');
         
         // Caching
         const cacheKey = `Map:${newId}`;
